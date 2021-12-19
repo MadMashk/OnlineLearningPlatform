@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repositories.IAppUserRepository;
 import repositories.ICourseRepository;
 import repositories.ITeacherRepository;
@@ -29,8 +30,11 @@ public class TeacherService {
     @Autowired
     private IAppUserRepository userRepository;
     private static final Logger logger = LogManager.getLogger(TaskService.class);
+    public TeacherService() {
 
+    }
 
+    @Transactional(readOnly = true)
     public Page<TeacherDTO> getAllTeachers(Pageable pageable){ //получить всех учителей
         List <Teacher> teacherList = teacherRepository.findAll();
         List <TeacherDTO> teacherDTOS = new ArrayList<>();
@@ -51,15 +55,15 @@ public class TeacherService {
                 PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),pageable.getSort()), teacherDTOS.size());
     }
 
-    public TeacherService() {
-    }
 
+    @Transactional
     public Teacher addTeacher(Teacher teacher) { //добавить учителя
        Teacher savedTeacher = teacherRepository.save(teacher);
        logger.info("teacher "+ savedTeacher.getId() + " is created");
        return savedTeacher;
     }
 
+    @Transactional
     public void addTeacherToCourse(int teacherId, int courseId) { //добавить учителя к курсу
        Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("course not found with id = " + courseId));
@@ -70,6 +74,7 @@ public class TeacherService {
         courseRepository.save(course);
     }
 
+    @Transactional
     public void deleteTeacher(int teacherId){ //удалить учителя
         teacherRepository.delete(teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new NotFoundException("teacher not found with id = " + teacherId)));
@@ -77,6 +82,7 @@ public class TeacherService {
     }
 
 
+    @Transactional(readOnly = true)
     public TeacherDTO getOne(int teacherId) { //получить одного учителя
       Teacher teacher = teacherRepository.findById(teacherId)
                .orElseThrow(() -> new NotFoundException("teacher not found with id = " + teacherId));
@@ -93,7 +99,7 @@ public class TeacherService {
         return new TeacherDTO(teacher.getName(),teacher.getUserName(),currentUser.getEmail(), coursesOfTeacher);
     }
 
-
+    @Transactional
     public TeacherDTO updateTeacher(int teacherId, TeacherDTO teacherDTO){ //обновить учителя
         Teacher teacherToUpdate = teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new NotFoundException("teacher not found with id = " + teacherId));

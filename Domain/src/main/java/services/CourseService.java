@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import repositories.ICourseRepository;
 import repositories.ITeacherRepository;
@@ -29,28 +30,26 @@ import java.util.List;
     public CourseService() {
     }
 
-    public List <Course> getAllCourses() {               //получить все курсы
-          return courseRepository.findAll();
-    }
 
+    @Transactional(readOnly = true)
     public Page<Course> courseSearching(String keyword, Pageable pageable) { //поиск курса
           return  courseRepository.findAll(keyword, pageable);
     }
 
-
+   @Transactional(readOnly = true)
    public Course getOneCourse(int courseId){ //получить один курс
            return courseRepository.findById(courseId)
                     .orElseThrow(() -> new NotFoundException("course not found with id = " + courseId));
    }
 
-
+    @Transactional
     public Course addNewCourse(Course course) {          //добавить новый курс
         Course savedCourse = courseRepository.save(course);
         logger.info("course " + savedCourse.getId() + " is created");
         return savedCourse;
     }
 
-
+    @Transactional
     public Course updateCourse(Course course, int courseId) {  //обновить курс
         Course course1 = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("course not found with id = " + courseId));
@@ -82,7 +81,7 @@ import java.util.List;
         return course;
     }
 
-
+    @Transactional
     public void deleteCourse(int courseId) {                //удалить курс
         courseRepository.delete(courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("course not found with id = " + courseId)));
@@ -97,7 +96,7 @@ import java.util.List;
         return true;
     }
 
-
+    @Transactional(readOnly = true)
     public List<Attachment> getAttachmentsOfCourse( Integer courseId ){
         Course course = courseRepository
                 .findById(courseId)
@@ -105,7 +104,7 @@ import java.util.List;
         return course.getAttachmentsOfCourse();
     }
 
-
+    @Transactional
     public void saveAttachmentToCourse(MultipartFile file, Integer courseId){ //добавить вложения к курсу
         String fileName = file.getOriginalFilename();
         try {
@@ -125,7 +124,7 @@ import java.util.List;
 
     }
 
-
+    @Transactional(readOnly = true)
     public Attachment getOneAttachmentOfCourse(Integer attachmentId, Integer courseId ){ //получить вложение курса
         Course course = courseRepository
                 .findById(courseId)
@@ -139,10 +138,11 @@ import java.util.List;
         throw new NotFoundException("course " + courseId + " hasn't attachment " + attachmentId);
     }
 
-        public Page<Teacher> getTeachersOfCourse (int courseId, Pageable pageable)  {  //получить всех учителей определенного курса
-            Course course = courseRepository.findById(courseId)
-                    .orElseThrow(() -> new NotFoundException("course not found with id = " + courseId));
-            List<Teacher> teacherList = course.getTeachersOfCourse();
-            return new PageImpl<Teacher>(teacherList, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),pageable.getSort()), teacherList.size());
-        }
+    @Transactional(readOnly = true)
+    public Page<Teacher> getTeachersOfCourse (int courseId, Pageable pageable)  {  //получить всех учителей определенного курса
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new NotFoundException("course not found with id = " + courseId));
+        List<Teacher> teacherList = course.getTeachersOfCourse();
+        return new PageImpl<>(teacherList, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),pageable.getSort()), teacherList.size());
+    }
 }

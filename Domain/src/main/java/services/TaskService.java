@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repositories.ICourseRepository;
 import repositories.IReceivedTaskRepository;
 import repositories.IStudentRepository;
@@ -39,25 +40,27 @@ public class TaskService {
     public TaskService() {
     }
 
+    @Transactional
     public Task addTask(Task task) { //добавить задание
         Task savedTask = taskRepository.save(task);
         logger.info("task " + savedTask.getId() + " is created");
         return savedTask;
     }
 
+    @Transactional
     public void deleteTask(int id) { //удалить задание
         taskRepository.delete(taskRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("task not found with id = " + id)));
         logger.info("task " + id + " is deleted");
     }
 
-
+    @Transactional(readOnly = true)
     public Task getOneTask(int taskId) { //получить определенное задание
        return taskRepository.findById(taskId)
                 .orElseThrow(() -> new NotFoundException("task not found with id = " + taskId));
     }
 
-
+    @Transactional
     public Task updateTask(int taskId, Task task) { //обновить задание
         Task taskToUpdate = taskRepository.findById(taskId)
                 .orElseThrow(() -> new NotFoundException("task not found with id = " + taskId));
@@ -77,7 +80,7 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-
+    @Transactional(readOnly = true)
     public Page<Task> getAllTasksOfCourse(int courseId, Pageable pageable) { //все задания курса
         List<Task> tasksOfCourse = new ArrayList<>();
         for (int i = 0; i < courseRepository.findAll().size(); i++) {
@@ -88,7 +91,7 @@ public class TaskService {
         return new PageImpl<>(tasksOfCourse, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),pageable.getSort()), tasksOfCourse.size());
     }
 
-
+    @Transactional(readOnly = true)
     public Task getOneTasksOfCourse(int courseId, int taskId) { //одно задание курса
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("course not found with id = " + courseId));
@@ -105,7 +108,7 @@ public class TaskService {
         throw new NotFoundException("course "+ courseId+ " hasn't task " + taskId);
     }
 
-
+    @Transactional
     public void setTaskToCourse(int courseId, int taskId) {  //добовить задание в курс
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("course not found with id = " + courseId));
@@ -116,7 +119,7 @@ public class TaskService {
         courseRepository.save(course);
     }
 
-
+    @Transactional
     public ReceivedTask getTaskToCheck(int receivedTaskId, int studentId) { //сдать задание на провеку
         ReceivedTask receivedTask = receivedTaskRepository.findById(receivedTaskId)
                 .orElseThrow(() -> new NotFoundException("received task not found with id = " + receivedTaskId));
@@ -131,7 +134,7 @@ public class TaskService {
         return receivedTask;
     }
 
-
+    @Transactional
     public ReceivedTask completeTask(int studentId, int receivedTaskId) { //завершить задание
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new NotFoundException("student task not found with id = " + studentId));

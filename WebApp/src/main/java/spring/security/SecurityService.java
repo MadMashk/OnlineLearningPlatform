@@ -17,13 +17,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repositories.IAppUserRepository;
 import repositories.IRoleRepository;
 import repositories.IStudentRepository;
 import repositories.ITeacherRepository;
-import services.StudentService;
-import services.TeacherService;
-import services.UserService;
 import spring.security.jwt.JwtUtils;
 import spring.security.pojo.JwtResponse;
 import spring.security.pojo.LoginRequest;
@@ -54,19 +52,19 @@ public class SecurityService {
     private IAppUserRepository userRepository;
 
     private static final Logger logger = LogManager.getLogger(SecurityService.class);
-
+    @Transactional(readOnly = true)
     public boolean hasStudentAccess(String currentUserName, Integer studentID) {
         Student student = studentRepository.findById(studentID)
                 .orElseThrow(() -> new NotFoundException("Student not found with id " + currentUserName));
         return student.getUserName().equals(currentUserName);
     }
-
+    @Transactional(readOnly = true)
     public boolean hasTeacherAccess(String currentUserName, Integer teacherId) {
         Teacher teacher = teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new NotFoundException("Teacher not found with id " + currentUserName));
         return teacher.getUserName().equals(currentUserName);
     }
-
+    @Transactional
     public JwtResponse authentication(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
@@ -86,7 +84,7 @@ public class SecurityService {
                 roles);
 
     }
-
+    @Transactional
     public void registration(SingUpRequest singUpRequest) {
         if (appUserRepository.existsByUserName(singUpRequest.getUserName())) {
             throw new AlreadyExistsException("Error: UserName already exists");
