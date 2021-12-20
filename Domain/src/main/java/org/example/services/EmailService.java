@@ -1,4 +1,4 @@
-package services;
+package org.example.services;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,4 +36,5 @@ public class EmailService {
         helper.setText(body, true);
         mailSender.send(message);
     }
+
 }
