@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-approles
+      author: Masha
+      changes:
+        - createTable:
+            tableName: approles
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  defaultValueSequenceNext: sequencerole
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false

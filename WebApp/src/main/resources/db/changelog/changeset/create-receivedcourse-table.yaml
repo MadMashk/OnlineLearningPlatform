@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-receivedcourse
+      author: Masha
+      changes:
+        - createTable:
+            tableName: receivedcourse
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  defaultValueSequenceNext: sequencerecivedcourse
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: completestatus
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dateofending
+                  type: timestamp
+              - column:
+                  name: dateofreceiving
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: student
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: course
+                  type: integer
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: student
+            baseTableName: receivedcourse
+            constraintName: fk_receivedcourse_student
+            referencedColumnNames: id
+            referencedTableName: student
+            referencedTableSchemaName: senla
+        - addForeignKeyConstraint:
+            baseColumnNames: course
+            baseTableName: receivedcourse
+            constraintName: fk_receivedcourse_course
+            referencedColumnNames: id
+            referencedTableName: course
+            referencedTableSchemaName: senla
+
+

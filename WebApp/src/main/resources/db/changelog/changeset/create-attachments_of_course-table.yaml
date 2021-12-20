@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-attachments_of_course
+      author: Masha
+      changes:
+        - createTable:
+            tableName: attachments_of_course
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: course_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: attachment_id
+                  type: integer
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: course_id
+            baseTableName: attachments_of_course
+            constraintName: fk_attachments_of_course_course
+            referencedColumnNames: id
+            referencedTableName: course
+            referencedTableSchemaName: senla
+        - addForeignKeyConstraint:
+            baseColumnNames: attachment_id
+            baseTableName: attachments_of_course
+            constraintName: fk_attachments_of_course_attachment
+            referencedColumnNames: id
+            referencedTableName: attachment
+            referencedTableSchemaName: senla

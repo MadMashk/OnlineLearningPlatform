@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-attachment
+      author: Masha
+      changes:
+        - createTable:
+            tableName: attachment
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  defaultValueSequenceNext: seqeunceattachment
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: data
+                  type: blob
+              - column:
+                  name: doc_type
+                  type: varchar
+              - column:
+                  name: name
+                  type: varchar

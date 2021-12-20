@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-course
+      author: Masha
+      changes:
+        - createTable:
+            tableName: course
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  defaultValueSequenceNext: sequencecourse
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: integer
+              - column:
+                  name: subject
+                  type: varchar(50)
+
+

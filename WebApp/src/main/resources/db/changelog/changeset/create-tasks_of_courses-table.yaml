@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tasks_of_courses
+      author: Masha
+      changes:
+        - createTable:
+            tableName: tasks_of_courses
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: course_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_id
+                  type: integer
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: course_id
+            baseTableName: tasks_of_courses
+            constraintName: fk_tasks_of_courses_course
+            referencedColumnNames: id
+            referencedTableName: course
+            referencedTableSchemaName: senla
+        - addForeignKeyConstraint:
+            baseColumnNames: task_id
+            baseTableName: tasks_of_courses
+            constraintName: fk_tasks_of_courses_task
+            referencedColumnNames: id
+            referencedTableName: task
+            referencedTableSchemaName: senla

@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: ctreate-student
+      author: Masha
+      changes:
+        - createTable:
+            tableName: student
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  defaultValueSequenceNext: sequencestudent
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+              - column:
+                  name: points
+                  type: bigint
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true

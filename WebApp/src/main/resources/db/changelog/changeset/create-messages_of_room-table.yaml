@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-messages_of_room
+      author: Masha
+      changes:
+        - createTable:
+            tableName: messages_of_room
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: chatroom_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: message_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: message_id
+            baseTableName: messages_of_room
+            constraintName: fk_messages_of_room_message
+            referencedColumnNames: id
+            referencedTableName: messages
+            referencedTableSchemaName: senla
+        - addForeignKeyConstraint:
+            baseColumnNames: chatroom_id
+            baseTableName: messages_of_room
+            constraintName: fk_messages_of_room_chatroom
+            referencedColumnNames: id
+            referencedTableName: chatrooms
+            referencedTableSchemaName: senla

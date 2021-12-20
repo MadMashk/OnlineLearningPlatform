@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: createSequenceteacher
+      author: Masha
+      changes:
+        - createSequence:
+            sequenceName: sequenceteacher
+            cacheSize: 1
+            cycle: false
+            incrementBy: 1
+            dataType: bigint
+            startValue: 1
+            minValue: 1
+            maxValue: 9223372036854775807
+            schemaName: senla
+            catalogName: sequences

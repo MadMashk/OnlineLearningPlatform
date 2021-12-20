@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: ctreate-chatrooms
+      author: Masha
+      changes:
+        - createTable:
+            tableName: chatrooms
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  defaultValueSequenceNext: sequencechatrooms
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: recipient_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sender_id
+                  type: integer

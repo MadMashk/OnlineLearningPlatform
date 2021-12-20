@@ -1,0 +1,201 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-receivedtask
+      author: Masha
+      changes:
+        - createTable:
+            tableName: receivedtask
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  defaultValueSequenceNext: sequencereceivedtask
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: completestatus
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dateofreceiving
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dateofending
+                  type: timestamp
+              - column:
+                  name: student
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task
+                  type: integer
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+             baseColumnNames: student
+             baseTableName: receivedtask
+             constraintName: fk_receivedtask_student
+             referencedColumnNames: id
+             referencedTableName: student
+             referencedTableSchemaName: senla
+        - addForeignKeyConstraint:
+             baseColumnNames: task
+             baseTableName: receivedtask
+             constraintName: fk_receivedtask_task
+             referencedColumnNames: id
+             referencedTableName: task
+             referencedTableSchemaName: senla
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

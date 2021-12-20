@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user_roles
+      author: Masha
+      changes:
+        - createTable:
+            tableName: user_roles
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: appuser_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: approles_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: appuser_id
+            baseTableName: user_roles
+            constraintName: fk_user_roles_appuser
+            referencedColumnNames: id
+            referencedTableName: appuser
+            referencedTableSchemaName: senla
+        - addForeignKeyConstraint:
+            baseColumnNames: approles_id
+            baseTableName: user_roles
+            constraintName: fk_user_roles_approles
+            referencedColumnNames: id
+            referencedTableName: approles
+            referencedTableSchemaName: senla
+

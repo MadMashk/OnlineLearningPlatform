@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-teachers_of_courses
+      author: Masha
+      changes:
+        - createTable:
+            tableName: teachers_of_courses
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: course_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: teachers_id
+                  type: integer
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: course_id
+            baseTableName: teachers_of_courses
+            constraintName: fk_teachers_of_courses_course
+            referencedColumnNames: id
+            referencedTableName: course
+            referencedTableSchemaName: senla
+        - addForeignKeyConstraint:
+            baseColumnNames: teachers_id
+            baseTableName: teachers_of_courses
+            constraintName: fk_teachers_of_courses_teacher
+            referencedColumnNames: id
+            referencedTableName: teachers
+            referencedTableSchemaName: senla

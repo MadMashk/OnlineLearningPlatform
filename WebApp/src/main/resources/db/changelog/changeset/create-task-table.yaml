@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-task
+      author: Masha
+      changes:
+        - createTable:
+            tableName: task
+            schemaName: senla
+            catalogName: tables
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  defaultValueSequenceNext: sequencetask
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: varchar(50)
+              - column:
+                  name: description
+                  type: varchar
+              - column:
+                  name: pointsforcompletion
+                  type: integer
