@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  WebApp:
+    container_name: webapp
+    image: webapp
+    environment:
+      DB_URL: jdbc:postgresql://host.docker.internal:5432/OnlineLearningPlatform1
+    build:
+      ./WebApp/
+    #command: npm run start:debug
+    ports:
+      - "8082:8081"
+    depends_on:
+      - db-dev
+    networks:
+      - api-network
+    restart: unless-stopped
+
+
+  db-dev:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "12345"
+      POSTGRES_DB: "OnlineLearningPlatform1"
+    networks:
+      - api-network
+
+networks:
+  api-network:
