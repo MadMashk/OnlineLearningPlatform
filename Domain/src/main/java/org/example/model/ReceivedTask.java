@@ -4,6 +4,7 @@ import org.example.model.constants.CompleteStatus;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table (name = "receivedtask")
@@ -80,4 +81,18 @@ public class ReceivedTask {
     public void setDateOfEnding(Date dateOfEnding) {
         this.dateOfEnding = dateOfEnding;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReceivedTask that = (ReceivedTask) o;
+        return Objects.equals(id, that.id) && Objects.equals(task, that.task) && Objects.equals(student, that.student) && completeStatus == that.completeStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, task, student, completeStatus);
+    }
 }
+

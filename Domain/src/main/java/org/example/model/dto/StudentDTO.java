@@ -2,6 +2,8 @@ package org.example.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Objects;
+
 @Schema(description = "студент")
 public class StudentDTO {
     @Schema(description = "имя пользователя", example = "Ванька227")
@@ -50,5 +52,18 @@ public class StudentDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentDTO that = (StudentDTO) o;
+        return Objects.equals(userName, that.userName) && Objects.equals(name, that.name) && Objects.equals(points, that.points) && Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName, name, points, email);
     }
 }

@@ -1,6 +1,8 @@
 package org.example.model;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 @Table(name = "attachment")
@@ -51,5 +53,20 @@ public class Attachment {
 
     public void setDocType(String docType) {
         this.docType = docType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Attachment that = (Attachment) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(docType, that.docType) && Arrays.equals(data, that.data);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, name, docType);
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
     }
 }

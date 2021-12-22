@@ -37,7 +37,7 @@ public class StudentController {
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/", method = RequestMethod.POST, headers ="Accept=application/json")
     public Student addStudent(@RequestBody @Parameter(description = "новый студент") Student student ){
-        return studentService.addStudent(student);
+    return studentService.addStudent(student);
     }
 
     @Operation(summary = "получить профиль студента")
@@ -62,6 +62,7 @@ public class StudentController {
         return studentService.updateStudent(studentId, student);
     }
 
+    @ResponseBody
     @Operation(summary = "получить все приобретенные курсы студента")
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN') or hasRole('TEACHER')")
     @RequestMapping(value = "/{id}/courses", method = RequestMethod.GET, headers ="Accept=application/json")
@@ -87,7 +88,7 @@ public class StudentController {
         return studentService.setTaskToStudent(taskId, studentId);
     }
 
-    @Operation(summary = "получить все пвзятые задания студента")
+    @Operation(summary = "получить все взятые задания студента")
     @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.hasStudentAccess(principal.getUsername(), #studentId)")
     @RequestMapping(value = "{id}/tasks/{receivedTaskId}", method = RequestMethod.GET, headers ="Accept=application/json")
     public ReceivedTask getReceivedTaskOfStudent(@PathVariable("id") @Parameter(description = "id студента") Integer studentId,

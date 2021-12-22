@@ -2,6 +2,7 @@ package org.example.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table (name = "course",
@@ -109,4 +110,16 @@ public class Course {
         this.tasksOfCourse = tasksOfCourse;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(id, course.id) && Objects.equals(name, course.name) && Objects.equals(subject, course.subject) && Objects.equals(price, course.price) && Objects.equals(description, course.description) && Objects.equals(teachersOfCourse, course.teachersOfCourse) && Objects.equals(attachmentsOfCourse, course.attachmentsOfCourse) && Objects.equals(tasksOfCourse, course.tasksOfCourse);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, subject, price, description, teachersOfCourse, attachmentsOfCourse, tasksOfCourse);
+    }
 }

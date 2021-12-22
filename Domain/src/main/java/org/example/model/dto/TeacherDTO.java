@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.model.Course;
 
 import java.util.List;
+import java.util.Objects;
 
 @Schema(description = "учитель")
 public class TeacherDTO {
@@ -53,5 +54,18 @@ public class TeacherDTO {
 
     public void setCourseList(List<Course> courseList) {
         this.courseList = courseList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TeacherDTO that = (TeacherDTO) o;
+        return Objects.equals(name, that.name) && Objects.equals(userName, that.userName) && Objects.equals(email, that.email) && Objects.equals(courseList, that.courseList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, userName, email, courseList);
     }
 }

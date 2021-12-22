@@ -2,6 +2,7 @@ package org.example.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "chatrooms", schema = "senla")
@@ -59,4 +60,16 @@ public class ChatRoom {
         this.recipientId = recipientId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChatRoom chatRoom = (ChatRoom) o;
+        return Objects.equals(id, chatRoom.id) && Objects.equals(messages, chatRoom.messages) && Objects.equals(senderId, chatRoom.senderId) && Objects.equals(recipientId, chatRoom.recipientId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, messages, senderId, recipientId);
+    }
 }

@@ -63,8 +63,8 @@ private IChatRoomRepository chatRoomRepository;
             chatRoomRecipient.setMessages(messageListRecipient);
             ChatRoom savedChatRoomSender = chatRoomRepository.save(chatRoomSender);
             ChatRoom savedChatRoomRecipient = chatRoomRepository.save(chatRoomRecipient);
-            logger.info("chat room with id = " + savedChatRoomSender.getId() + "is created");
-            logger.info("chat room with id = " + savedChatRoomRecipient.getId() + "is created");
+            logger.info("chat room with id = " + savedChatRoomSender.getId() + " is created");
+            logger.info("chat room with id = " + savedChatRoomRecipient.getId() + " is created");
         }
     }
 
@@ -76,7 +76,9 @@ private IChatRoomRepository chatRoomRepository;
         chatRoomDTOS = new ArrayList<>();
         chatRoomRepository.findAll().forEach(chatRoom -> {
             if (chatRoom.getSenderId().equals(user.getId())){
-                chatRoomDTOS.add(new ChatRoomDTO(appUserRepository.getOne(chatRoom.getRecipientId()).getUserName(),
+                AppUser appUserRecipient = appUserRepository.findById(chatRoom.getRecipientId())
+                        .orElseThrow(() -> new NotFoundException("user not found with id " + chatRoom.getRecipientId()));
+                chatRoomDTOS.add(new ChatRoomDTO(appUserRecipient.getUserName(),
                         chatRoom.getMessages().get(chatRoom.getMessages().size()-1)));
             }
         });

@@ -1,6 +1,8 @@
 package org.example.model;
 
 import javax.persistence.*;
+import java.util.Objects;
+
 @Entity
 @Table(name = "teachers")
 public class Teacher {
@@ -39,5 +41,18 @@ public class Teacher {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Teacher teacher = (Teacher) o;
+        return Objects.equals(id, teacher.id) && Objects.equals(name, teacher.name) && Objects.equals(userName, teacher.userName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, userName);
     }
 }

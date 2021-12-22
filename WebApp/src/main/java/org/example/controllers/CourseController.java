@@ -60,7 +60,7 @@ public class CourseController {
     @Operation(summary = "получить определенный курс")
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN') or hasRole('TEACHER')")
     @RequestMapping(value = "/{id}", method=RequestMethod.GET, headers ="Accept=application/json")
-    public Course getOneCourses(@PathVariable("id") @Parameter(description = "id курса") Integer courseId){
+    public Course getOneCourse(@PathVariable("id") @Parameter(description = "id курса") Integer courseId){
         return courseService.getOneCourse(courseId);
     }
 
@@ -74,7 +74,7 @@ public class CourseController {
     @Operation(summary = "обновление информации курса")
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/{id}", method=RequestMethod.PUT, headers ="Accept=application/json")
-    public Course deleteCourse(@PathVariable("id") @Parameter(description = "id курса") Integer courseId,
+    public Course updateCourse(@PathVariable("id") @Parameter(description = "id курса") Integer courseId,
                                @RequestBody @Parameter(description = "курс с обновленной информацией") Course course ){
         return courseService.updateCourse(course, courseId);
     }

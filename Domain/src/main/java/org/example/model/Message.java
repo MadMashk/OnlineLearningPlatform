@@ -5,6 +5,8 @@ import org.example.model.constants.MessageStatus;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
+
 @Entity
 @Table(name = "messages", schema = "senla")
 public class Message {
@@ -76,5 +78,18 @@ public class Message {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return Objects.equals(id, message.id) && Objects.equals(senderId, message.senderId) && Objects.equals(recipientId, message.recipientId) && Objects.equals(content, message.content) && Objects.equals(time, message.time) && messageStatus == message.messageStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, senderId, recipientId, content, time, messageStatus);
     }
 }
